@@ -15,13 +15,16 @@ export default function RepoConnect() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/analyze', {
+      // FIX: Changed from '/api/analyze' to '/api/analyse' to match the folder structure
+      const res = await fetch('/api/analyse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ repoUrl: url.trim() }),
       });
+      
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || `Request failed with status ${res.status}`);
+      
       setRepo(data.repoId, data.nodeCount, data.edgeCount);
     } catch (e: any) {
       setError(e.message ?? 'Failed to analyze repository');
